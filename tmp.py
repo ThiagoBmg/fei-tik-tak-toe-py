@@ -1,7 +1,3 @@
-
-
-
-
 # FUNÇÃO DE TESTES 
 def _TEST_():
 	#adicionando novo player para testar função
