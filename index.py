@@ -36,6 +36,18 @@ def delPlayer(username):
         return __main__()
     else:
         print("Usuário não encontrado, tente novamente 😓",  end="\n")
+# função que busca o histórico do jogador
+def getHistory(username):
+    d_u_name = username.upper() # transformando em caixa alta antes de buscar o arquivo
+    if os.path.isfile("./{}.txt".format(d_u_name)):
+        file_tmp = open("./{}.txt".format(d_u_name)) # lendo numero de vitórias e derrotas do usuário encontrado anteriormente
+        file = file_tmp.readlines() # lendo as linhas
+        print("Usuário {}, atualmente esta com {} vitórias e {} derrotas 🎉 ".format(username,file[0].replace('\n',''), file[1].replace('\n','')) , end="\n")
+        file_tmp.close() # fechando arquivo
+    else:
+        print("Usuário não encontrado, tente novamente 😓",  end="\n")
+        time.sleep(default_delay*2)
+        return __main__()
 # buscando se um usuário é válido
 def searchPlayer(username):
     d_u_name = username.upper() # transformando em caixa alta antes de buscar o arquivo
@@ -165,4 +177,5 @@ def __main__():
         os.system('cls')
         print('\n Este jogo foi desenvolvido como um trabalho para a matéria de fundamentos de algoritimos. \n Desenvolvido por Thiago Braga Martins Gomes.', end="\n")
 
-__main__()
+#__main__()
+getHistory('thiago')
