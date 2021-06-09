@@ -101,7 +101,7 @@ def gameInit():
             time.sleep(default_delay)
             newPlayer(second_player)
         time.sleep(default_delay*3)
-        return os.system("cls")
+        return __main__()
     else:
 	    game_status = True
 
@@ -123,14 +123,21 @@ def __main__():
     print("-"*5+" 4 - Iniciar um novo jogo",end="\n")
     print("-"*5+" 5 - Sobre este jogo",end="\n")
 
-    user_option = int(input("-"*5+" Digite uma das opções: "))
+    user_option = '' 
+    try:
+        user_option = int(input("-"*5+" Digite uma das opções: "))
+    except Exception:
+        print("Ops! parece que esta não é uma opção válida, tente novamente 😓",  end="\n")
+        print(Exception.__str__)
+        time.sleep(default_delay*2)
+        return __main__()
 
     if user_option > 5:
         print("Ops! parece que esta não é uma opção válida, tente novamente 😓",  end="\n")
         time.sleep(default_delay*2)
         return __main__()
+       
     time.sleep(default_delay)
-
     if(user_option == 1):
         tmp_name = input('Digite o nome do usuário a ser criado: ')
         if len(tmp_name) == 0:
@@ -157,6 +164,5 @@ def __main__():
     elif(user_option == 5):
         os.system('cls')
         print('\n Este jogo foi desenvolvido como um trabalho para a matéria de fundamentos de algoritimos. \n Desenvolvido por Thiago Braga Martins Gomes.', end="\n")
-    #gameInit()
-    #_TEST_()
+
 __main__()
