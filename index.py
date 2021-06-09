@@ -13,6 +13,7 @@ matriz = [
 actions = 0 
 game_status = False
 default_delay = 2
+players=[]
 
 # função que cria um novo usuário
 def newPlayer(username):
@@ -44,6 +45,9 @@ def getHistory(username):
         file = file_tmp.readlines() # lendo as linhas
         print("Usuário {}, atualmente esta com {} vitórias e {} derrotas 🎉 ".format(username,file[0].replace('\n',''), file[1].replace('\n','')) , end="\n")
         file_tmp.close() # fechando arquivo
+        input('Digite enter para retornar ao menu ⌨ ')
+        time.sleep(default_delay)
+        __main__()
     else:
         print("Usuário não encontrado, tente novamente 😓",  end="\n")
         time.sleep(default_delay*2)
@@ -68,21 +72,61 @@ def printGame():
         print(" {} | {} | {} | {} | {} ".format(matriz[i][0],matriz[i][1],matriz[i][2],matriz[i][3],matriz[i][4]), end="\n")
         if i < 4 :
             print("-"*20, end="\n")
+# função que incrementa o ponto ou derrota para os jogadores
+def incrementValue(value):
+    global players
+    #print(players[0].upper())
+    tmp1 = open('./{}.txt'.format(players[0].upper()), "r")
+    tmp2 = open('./{}.txt'.format(players[1].upper()), "r")
+    tmp1l = tmp1.readlines() 
+    #print(tmp1l)
+    tmp1l = [int(tmp1l[0].replace('\n','')),int(tmp1l[1].replace('\n',''))]
+    tmp2l = tmp2.readlines()
+    tmp2l = [int(tmp2l[0].replace('\n','')),int(tmp2l[1].replace('\n',''))]
+    tmp1.close()
+    tmp2.close()
+
+    if value == "X":
+        tmp1l = [tmp1l[0]+1, tmp1l[1]]
+        tmp2l = [tmp2l[0], tmp2l[1]+1]
+        
+    else:
+        tmp1l = [tmp1l[0]+1, tmp1l[1]]
+        tmp2l = [tmp2l[0], tmp2l[1]+1]
+    
+    new_file = open("./{}.txt".format(players[0].upper()), "w")
+    new_file.write("{}\n".format(tmp1l[0]))
+    new_file.write("{}\n".format(tmp1l[1]))
+    new_file.close() # fechando arquivo
+
+    new_file = open("./{}.txt".format(players[1].upper()), "w")
+    new_file.write("{}\n".format(tmp2l[0]))
+    new_file.write("{}\n".format(tmp2l[1]))
+    new_file.close() # fechando arquivo
+    #print(tmp1l)
 # função responsável por validar o status do jogo. interar a quantidade de jogadas . validar se algum dos usuários venceu a partida
 def handlerV():
+    global game_status
     global actions
     actions +=1
-    if (matriz[0][0]=="x" and matriz[0][1]=="x" and matriz[0][2]=="x" and matriz[0][3]=="x") or (matriz[0][1]=="x" and matriz[0][2]=="x" and matriz[0][3]=="x" and matriz[0][4]=="x")  or (matriz[1][0]=="x" and matriz[1][1]=="x" and matriz[1][2]=="x" and matriz[1][3]=="x") or (matriz[1][1]=="x" and matriz[1][2]=="x" and matriz[1][3]=="x" and matriz[1][4]=="x") or (matriz[2][0]=="x" and matriz[2][1]=="x" and matriz[2][2]=="x" and matriz[2][3]=="x") or (matriz[2][1]=="x" and matriz[2][2]=="x" and matriz[2][3]=="x" and matriz[2][4]=="x") or (matriz[3][0]=="x" and matriz[3][1]=="x" and matriz[3][2]=="x" and matriz[3][3]=="x") or (matriz[3][1]=="x" and matriz[3][2]=="x" and matriz[3][3]=="x" and matriz[3][4]=="x") or (matriz[4][0]=="x" and matriz[4][1]=="x" and matriz[4][2]=="x" and matriz[4][3]=="x") or (matriz[4][1]=="x" and matriz[4][2]=="x" and matriz[4][3]=="x" and matriz[4][4]=="x") or (matriz[0][0]=="x" and matriz[1][0]=="x" and matriz[2][0]=="x" and matriz[3][0]=="x") or (matriz[1][0]=="x" and matriz[2][0]=="x" and matriz[3][0]=="x" and matriz[4][0]=="x") or (matriz[0][1]=="x" and matriz[1][1]=="x" and matriz[2][1]=="x" and matriz[3][1]=="x") or (matriz[1][1]=="x" and matriz[2][1]=="x" and matriz[3][1]=="x" and matriz[4][1]=="x") or (matriz[0][2]=="x" and matriz[1][2]=="x" and matriz[2][2]=="x" and matriz[3][2]=="x") or (matriz[1][2]=="x" and matriz[2][2]=="x" and matriz[3][2]=="x" and matriz[4][2]=="x") or (matriz[0][3]=="x" and matriz[1][3]=="x" and matriz[2][3]=="x" and matriz[3][3]=="x") or (matriz[1][3]=="x" and matriz[2][3]=="x" and matriz[3][3]=="x" and matriz[4][3]=="x") or (matriz[0][4]=="x" and matriz[1][4]=="x" and matriz[2][4]=="x" and matriz[3][4]=="x") or (matriz[1][4]=="x" and matriz[2][4]=="x" and matriz[3][4]=="x" and matriz[4][4]=="x") or (matriz[0][0]=="x" and matriz[1][1]=="x" and matriz[2][2]=="x" and matriz[3][3]=="x") or (matriz[1][1]=="x" and matriz[2][2]=="x" and matriz[3][3]=="x" and matriz[4][4]=="x") or (matriz[0][4]=="x" and matriz[1][3]=="x" and matriz[2][2]=="x" and matriz[3][1]=="x") or (matriz[4][0]=="x" and matriz[3][1]=="x" and matriz[2][2]=="x" and matriz[1][3]=="x"):
-        print("vitória jogador X")
-    elif(matriz[0][0]=="o" and matriz[0][1]=="o" and matriz[0][2]=="o" and matriz[0][3]=="o") or (matriz[0][1]=="o" and matriz[0][2]=="o" and matriz[0][3]=="o" and matriz[0][4]=="o") or (matriz[1][0]=="o" and matriz[1][1]=="o" and matriz[1][2]=="o" and matriz[1][3]=="o") or (matriz[1][1]=="o" and matriz[1][2]=="o" and matriz[1][3]=="o" and matriz[1][4]=="o") or (matriz[2][0]=="o" and matriz[2][1]=="o" and matriz[2][2]=="o" and matriz[2][3]=="o") or (matriz[2][1]=="o" and matriz[2][2]=="o" and matriz[2][3]=="o" and matriz[2][4]=="o") or (matriz[3][0]=="o" and matriz[3][1]=="o" and matriz[3][2]=="o" and matriz[3][3]=="o") or (matriz[3][1]=="o" and matriz[3][2]=="o" and matriz[3][3]=="o" and matriz[3][4]=="o") or (matriz[4][0]=="o" and matriz[4][1]=="o" and matriz[4][2]=="o" and matriz[4][3]=="o") or (matriz[4][1]=="o" and matriz[4][2]=="o" and matriz[4][3]=="o" and matriz[4][4]=="o") or (matriz[0][0]=="o" and matriz[1][0]=="o" and matriz[2][0]=="o" and matriz[3][0]=="o") or (matriz[1][0]=="o" and matriz[2][0]=="o" and matriz[3][0]=="o" and matriz[4][0]=="o") or (matriz[0][1]=="o" and matriz[1][1]=="o" and matriz[2][1]=="o" and matriz[3][1]=="o") or (matriz[1][1]=="o" and matriz[2][1]=="o" and matriz[3][1]=="o" and matriz[4][1]=="o") or (matriz[0][2]=="o" and matriz[1][2]=="o" and matriz[2][2]=="o" and matriz[3][2]=="o") or (matriz[1][2]=="o" and matriz[2][2]=="o" and matriz[3][2]=="o" and matriz[4][2]=="o") or (matriz[0][3]=="o" and matriz[1][3]=="o" and matriz[2][3]=="o" and matriz[3][3]=="o") or (matriz[1][3]=="o" and matriz[2][3]=="o" and matriz[3][3]=="o" and matriz[4][3]=="o") or (matriz[0][4]=="o" and matriz[1][4]=="o" and matriz[2][4]=="o" and matriz[3][4]=="o") or (matriz[1][4]=="o" and matriz[2][4]=="o" and matriz[3][4]=="o" and matriz[4][4]=="o") or (matriz[0][0]=="o" and matriz[1][1]=="o" and matriz[2][2]=="o" and matriz[3][3]=="o") or (matriz[1][1]=="o" and matriz[2][2]=="o" and matriz[3][3]=="o" and matriz[4][4]=="o") or (matriz[0][4]=="o" and matriz[1][3]=="o" and matriz[2][2]=="o" and matriz[3][1]=="o") or (matriz[4][0]=="o" and matriz[3][1]=="o" and matriz[2][2]=="o" and matriz[1][3]=="o"):
-        print("vitória jogador O")
+    printGame()
+    if (matriz[0][0]=="X" and matriz[0][1]=="X" and matriz[0][2]=="X" and matriz[0][3]=="X") or (matriz[0][1]=="X" and matriz[0][2]=="X" and matriz[0][3]=="X" and matriz[0][4]=="X")  or (matriz[1][0]=="X" and matriz[1][1]=="X" and matriz[1][2]=="X" and matriz[1][3]=="X") or (matriz[1][1]=="X" and matriz[1][2]=="X" and matriz[1][3]=="X" and matriz[1][4]=="X") or (matriz[2][0]=="X" and matriz[2][1]=="X" and matriz[2][2]=="X" and matriz[2][3]=="X") or (matriz[2][1]=="X" and matriz[2][2]=="X" and matriz[2][3]=="X" and matriz[2][4]=="X") or (matriz[3][0]=="X" and matriz[3][1]=="X" and matriz[3][2]=="X" and matriz[3][3]=="X") or (matriz[3][1]=="X" and matriz[3][2]=="X" and matriz[3][3]=="X" and matriz[3][4]=="X") or (matriz[4][0]=="X" and matriz[4][1]=="X" and matriz[4][2]=="X" and matriz[4][3]=="X") or (matriz[4][1]=="X" and matriz[4][2]=="X" and matriz[4][3]=="X" and matriz[4][4]=="X") or (matriz[0][0]=="X" and matriz[1][0]=="X" and matriz[2][0]=="X" and matriz[3][0]=="X") or (matriz[1][0]=="X" and matriz[2][0]=="X" and matriz[3][0]=="X" and matriz[4][0]=="X") or (matriz[0][1]=="X" and matriz[1][1]=="X" and matriz[2][1]=="X" and matriz[3][1]=="X") or (matriz[1][1]=="X" and matriz[2][1]=="X" and matriz[3][1]=="X" and matriz[4][1]=="X") or (matriz[0][2]=="X" and matriz[1][2]=="X" and matriz[2][2]=="X" and matriz[3][2]=="X") or (matriz[1][2]=="X" and matriz[2][2]=="X" and matriz[3][2]=="X" and matriz[4][2]=="X") or (matriz[0][3]=="X" and matriz[1][3]=="X" and matriz[2][3]=="X" and matriz[3][3]=="X") or (matriz[1][3]=="X" and matriz[2][3]=="X" and matriz[3][3]=="X" and matriz[4][3]=="X") or (matriz[0][4]=="X" and matriz[1][4]=="X" and matriz[2][4]=="X" and matriz[3][4]=="X") or (matriz[1][4]=="X" and matriz[2][4]=="X" and matriz[3][4]=="X" and matriz[4][4]=="X") or (matriz[0][0]=="X" and matriz[1][1]=="X" and matriz[2][2]=="X" and matriz[3][3]=="X") or (matriz[1][1]=="X" and matriz[2][2]=="X" and matriz[3][3]=="X" and matriz[4][4]=="X") or (matriz[0][4]=="X" and matriz[1][3]=="X" and matriz[2][2]=="X" and matriz[3][1]=="X") or (matriz[4][0]=="X" and matriz[3][1]=="X" and matriz[2][2]=="X" and matriz[1][3]=="X"):
+        incrementValue('X')
+        print("🎉 🥳 🏆  vitória jogador X 🏆  🥳  🎉 ") 
+        game_status = False
+    elif(matriz[0][0]=="O" and matriz[0][1]=="O" and matriz[0][2]=="O" and matriz[0][3]=="O") or (matriz[0][1]=="O" and matriz[0][2]=="O" and matriz[0][3]=="O" and matriz[0][4]=="O") or (matriz[1][0]=="O" and matriz[1][1]=="O" and matriz[1][2]=="O" and matriz[1][3]=="O") or (matriz[1][1]=="O" and matriz[1][2]=="O" and matriz[1][3]=="O" and matriz[1][4]=="O") or (matriz[2][0]=="O" and matriz[2][1]=="O" and matriz[2][2]=="O" and matriz[2][3]=="O") or (matriz[2][1]=="O" and matriz[2][2]=="O" and matriz[2][3]=="O" and matriz[2][4]=="O") or (matriz[3][0]=="O" and matriz[3][1]=="O" and matriz[3][2]=="O" and matriz[3][3]=="O") or (matriz[3][1]=="O" and matriz[3][2]=="O" and matriz[3][3]=="O" and matriz[3][4]=="O") or (matriz[4][0]=="O" and matriz[4][1]=="O" and matriz[4][2]=="O" and matriz[4][3]=="O") or (matriz[4][1]=="O" and matriz[4][2]=="O" and matriz[4][3]=="O" and matriz[4][4]=="O") or (matriz[0][0]=="O" and matriz[1][0]=="O" and matriz[2][0]=="O" and matriz[3][0]=="O") or (matriz[1][0]=="O" and matriz[2][0]=="O" and matriz[3][0]=="O" and matriz[4][0]=="O") or (matriz[0][1]=="O" and matriz[1][1]=="O" and matriz[2][1]=="O" and matriz[3][1]=="O") or (matriz[1][1]=="O" and matriz[2][1]=="O" and matriz[3][1]=="O" and matriz[4][1]=="O") or (matriz[0][2]=="O" and matriz[1][2]=="O" and matriz[2][2]=="O" and matriz[3][2]=="O") or (matriz[1][2]=="O" and matriz[2][2]=="O" and matriz[3][2]=="O" and matriz[4][2]=="O") or (matriz[0][3]=="O" and matriz[1][3]=="O" and matriz[2][3]=="O" and matriz[3][3]=="O") or (matriz[1][3]=="O" and matriz[2][3]=="O" and matriz[3][3]=="O" and matriz[4][3]=="O") or (matriz[0][4]=="O" and matriz[1][4]=="O" and matriz[2][4]=="O" and matriz[3][4]=="O") or (matriz[1][4]=="O" and matriz[2][4]=="O" and matriz[3][4]=="O" and matriz[4][4]=="O") or (matriz[0][0]=="O" and matriz[1][1]=="O" and matriz[2][2]=="O" and matriz[3][3]=="O") or (matriz[1][1]=="O" and matriz[2][2]=="O" and matriz[3][3]=="O" and matriz[4][4]=="O") or (matriz[0][4]=="O" and matriz[1][3]=="O" and matriz[2][2]=="O" and matriz[3][1]=="O") or (matriz[4][0]=="O" and matriz[3][1]=="O" and matriz[2][2]=="O" and matriz[1][3]=="O"):
+        incrementValue('O')    
+        print("🎉 🥳  🏆  vitória jogador O  🏆 🥳  🎉 ")
+        game_status = False
     elif actions >= 26:
-        print("empate")
-    else:
-        printGame()
+        print("🤦 🤦 EMPATE 🤦 🤦")
+        game_status = False
+        
+
 # função que reserva o espaço na matriz caso ele esteja livre
 def doSomething(user, linha , coluna):
     if matriz[linha][coluna] != " ":
+        printGame()
         print("⚠ Esta posição já foi reservada anteriormente. Escolha outra posição ⚠")  
     else:
         matriz[linha][coluna] = user
@@ -90,6 +134,7 @@ def doSomething(user, linha , coluna):
 # função que inicia o jogo
 def gameInit():
     global game_status
+    global players
     if game_status:
         return print("Game já foi iniciado anteriormente, tente novamente 🧐", end="\n")
    
@@ -116,12 +161,36 @@ def gameInit():
         return __main__()
     else:
 	    game_status = True
-
+        
+    players = [first_player,second_player]    
+    printGame()
+    #print(players)
+    # iniciando o game depois de realizar as validações a cima
     while game_status:
-        lin = int(input("Digite qual a linha para o usuário X: "))
-        col = int(input("Digite qual a coluna para o usuário X: "))
-        doSomething("x", lin-1, col-1)
+        #print('Number of actions: '+ str(actions))
+        #print('result of operation: '+str(int(actions%2)))
+        ob = ''
+        # validando se o numero de ações é par, caso seja, sera vez do player X, se for impar, vez do player O
+        if actions == 0 or actions%2 == 0:
+            ob = 'X'
+        else: 
+            ob = 'O'
+        # realizando jogada
+        try:
+            lin = int(input("Digite qual a linha para o usuário [{}]: ".format(ob)))
+            col = int(input("Digite qual a coluna para o usuário [{}]: ".format(ob)))
 
+            if lin < 0 or lin > 5 or col < 0 and col > 5:
+                printGame()
+                print("⚠ Digite um valor válido para realizar sua jogada ⚠",end="\n")
+                print("⚠ O valor que deve ser levado em consideração é um número inteiro entre 1-5 ⚠",end="\n")
+            else:    
+                doSomething(ob, lin-1, col-1)
+        except Exception:
+            printGame()
+            print("⚠ Digite um valor válido para realizar sua jogada ⚠",end="\n")
+            print("⚠ O valor que deve ser levado em consideração é um número inteiro entre 1-5 ⚠",end="\n")
+        
 ## FUNÇÃO PRINCIPAL 
 def __main__():
     os.system('cls')
@@ -148,7 +217,7 @@ def __main__():
         print("Ops! parece que esta não é uma opção válida, tente novamente 😓",  end="\n")
         time.sleep(default_delay*2)
         return __main__()
-       
+
     time.sleep(default_delay)
     if(user_option == 1):
         tmp_name = input('Digite o nome do usuário a ser criado: ')
@@ -169,13 +238,33 @@ def __main__():
         time.sleep(default_delay)
         return __main__()
     elif(user_option == 3):
-        print('alguma coisa')
+        tmp_name = input('Digite o nome do usuário que deseja buscar: ')
+        if len(tmp_name) == 0:
+            print('Digite um usuário válido para realizar a busca 😓')   
+            time.sleep(default_delay)
+            return __main__()
+        return getHistory(tmp_name)
     elif(user_option == 4):
-        time.sleep(default_delay)
         gameInit()
     elif(user_option == 5):
         os.system('cls')
         print('\n Este jogo foi desenvolvido como um trabalho para a matéria de fundamentos de algoritimos. \n Desenvolvido por Thiago Braga Martins Gomes.', end="\n")
 
-#__main__()
-getHistory('thiago')
+__main__()
+""" players=['thiago','renan']
+doSomething('X',0,0)
+time.sleep(1)
+doSomething('X',1,1)
+time.sleep(1)
+doSomething('X',2,2)
+time.sleep(1)
+doSomething('X',3,3)
+ """
+#doSomething('O',2,2)
+#time.sleep(1)
+#doSomething('O',3,3)
+#time.sleep(1)
+#doSomething('O',4,4)
+#time.sleep(1)
+#doSomething('O',1,1)
+#time.sleep(1)
